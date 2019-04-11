@@ -1,29 +1,11 @@
 import Phaser from 'phaser'
-import logoImg from './assets/logo.png'
 import { config } from './gameConfig'
+import { Scene01 } from "./scenes";
 
-const game = new Phaser.Game({
-  ...config,
-  scene: {
-    preload: preload,
-    create: create
-  }
-});
+window.onload = function () {
+  const game = new Phaser.Game(config)
+  game.scene.add('Scene01', Scene01)
 
-function preload() {
-  console.log('in')
-  this.load.image("logo", logoImg);
+  game.scene.start('Scene01')
 }
 
-function create() {
-  const logo = this.add.image(400, 150, 'logo');
-
-  this.tweens.add({
-    targets: logo,
-    y: 450,
-    duration: 2000,
-    ease: "Power2",
-    yoyo: true,
-    loop: -1
-  });
-}
