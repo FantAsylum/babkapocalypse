@@ -1,5 +1,5 @@
 import { Scene } from 'phaser'
-import playerImg from '../assets/player.png'
+import playerImg from '../../assets/player.png'
 
 export class Scene01 extends Scene {
   constructor(config) {

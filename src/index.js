@@ -3,7 +3,7 @@ import { config } from './gameConfig'
 import {
   Scene01,
   MainMenu
-} from "./scenes";
+} from './scenes';
 
 window.onload = function () {
   const game = new Phaser.Game(config)
@@ -11,6 +11,6 @@ window.onload = function () {
   game.scene.add('MainMenu', MainMenu)
   game.scene.add('Scene01', Scene01)
 
-  game.scene.start('Scene01')
+  game.scene.start('MainMenu')
 }
 
