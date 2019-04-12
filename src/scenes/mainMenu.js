@@ -12,7 +12,7 @@ export class MainMenu extends Scene {
   }
 
   create() {
-    new Button(this,
+    const btn = new Button(this,
       this.sys.game.config['width'] / 2,
       this.sys.game.config['height'] / 2,
       'mainMenu', {
