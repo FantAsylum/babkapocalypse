@@ -1,11 +1,6 @@
 import Phaser from 'phaser'
 import { fontDefaults, getFontStyle } from "../globals";
 
-const _pointerUp = Symbol('pointerUp')
-const _pointerDown = Symbol('pointerDown')
-const _pointerOver = Symbol('pointerOver')
-const _pointerOut = Symbol('pointerOut')
-
 export default class Button extends Phaser.GameObjects.Image {
 
   #upFrame
@@ -33,29 +28,29 @@ export default class Button extends Phaser.GameObjects.Image {
     }
 
     this.setInteractive()
-    this.on('pointerup', this[_pointerUp], this)
-    this.on('pointerdown', this[_pointerDown], this)
-    this.on('pointerout', this[_pointerOut], this)
-    this.#hoverFrame && this.on('pointerover', this[_pointerOver], this)
+    this.on('pointerup', this.#pointerUp, this)
+    this.on('pointerdown', this.#pointerDown, this)
+    this.on('pointerout', this.#pointerOut, this)
+    this.#hoverFrame && this.on('pointerover', this.#pointerOver, this)
 
     _scene.add.existing(this)
     _text && new ButtonLabel(_scene, this.x, this.y, _text, {...textStyle, ..._textStyle})
   }
 
-  [_pointerUp](pointer) {
+  #pointerUp(pointer) {
     this.#pressedFrame && this.setFrame(this.#upFrame)
     this.#btnCallback && this.#btnCallback.call(this.#myScope, 'up')
   }
 
-  [_pointerDown](pointer) {
+  #pointerDown(pointer) {
     this.#pressedFrame && this.setFrame(this.#pressedFrame)
   }
 
-  [_pointerOver](pointer, x, y) {
+  #pointerOver(pointer, x, y) {
     this.setFrame(this.#hoverFrame)
   }
 
-  [_pointerOut](pointer) {
+  #pointerOut(pointer) {
     this.setFrame(this.#upFrame)
   }
 
