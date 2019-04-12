@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { fontDefaults, getFontStyle } from "../globals";
 
 export default class Button extends Phaser.GameObjects.Image {
 
@@ -8,7 +9,8 @@ export default class Button extends Phaser.GameObjects.Image {
   myCallback
   myScope
 
-  constructor(_scene, _x, _y, _texture, _upFrame, _pressedFrame = null, _callback, _scale = 1, _hoverFrame = null) {
+  constructor(_scene, _x, _y, _texture, { upFrame: _upFrame, pressedFrame: _pressedFrame, hoverFrame: _hoverFrame },
+              _callback, { text: _text, textStyle: _textStyle }, _scale = 1) {
     super(_scene, _x, _y, _texture, _upFrame)
 
     this.upFrame = _upFrame
@@ -17,6 +19,13 @@ export default class Button extends Phaser.GameObjects.Image {
     this.myCallback = _callback
     this.myScope = _scene
     this.setScale(_scale)
+    const textStyle = {
+      font: getFontStyle(fontDefaults.button),
+      wordWrap: true,
+      wordWrapWidth: this.width * _scale,
+      align: 'center',
+      color: '#FFFFFF'
+    }
 
     this.setInteractive()
     this.on('pointerup', this.pointerUp, this)
@@ -25,6 +34,10 @@ export default class Button extends Phaser.GameObjects.Image {
     this.hoverFrame && this.on('pointerover', this.pointerOver, this)
 
     _scene.add.existing(this)
+    if (_text) {
+      const label = _scene.add.text(this.x + this.width / 2,
+        this.y + this.height / 2, _text, {...textStyle, ..._textStyle})
+    }
   }
 
   pointerUp(pointer) {
