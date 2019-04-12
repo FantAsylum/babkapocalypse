@@ -8,7 +8,7 @@ export default class Button extends Phaser.GameObjects.Image {
   myCallback
   myScope
 
-  constructor(_scene, _x, _y, _texture, _upFrame, _pressedFrame = null, _callback, _hoverFrame = null) {
+  constructor(_scene, _x, _y, _texture, _upFrame, _pressedFrame = null, _callback, _scaleX = 1, _scaleY = 1, _hoverFrame = null) {
     super(_scene, _x, _y, _texture, _upFrame)
 
     this.upFrame = _upFrame
@@ -16,6 +16,7 @@ export default class Button extends Phaser.GameObjects.Image {
     this.hoverFrame = _hoverFrame
     this.myCallback = _callback
     this.myScope = _scene
+    this.setScale(_scaleX, _scaleY)
 
     this.setInteractive()
     this.on('pointerup', this.pointerUp, this)
