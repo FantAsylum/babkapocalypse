@@ -1,6 +1,11 @@
 import Phaser from 'phaser'
 import { fontDefaults, getFontStyle } from "../globals";
 
+const _pointerUp = Symbol('pointerUp')
+const _pointerDown = Symbol('pointerDown')
+const _pointerOver = Symbol('pointerOver')
+const _pointerOut = Symbol('pointerOut')
+
 export default class Button extends Phaser.GameObjects.Image {
 
   #upFrame
@@ -22,37 +27,46 @@ export default class Button extends Phaser.GameObjects.Image {
     const textStyle = {
       font: getFontStyle(fontDefaults.button),
       wordWrap: true,
-      wordWrapWidth: this.width * _scale,
+      wordWrapWidth: this.displayWidth,
       align: 'center',
       color: '#FFFFFF'
     }
 
     this.setInteractive()
-    this.on('pointerup', this.pointerUp, this)
-    this.on('pointerdown', this.pointerDown, this)
-    this.on('pointerout', this.pointerOut, this)
-    this.#hoverFrame && this.on('pointerover', this.pointerOver, this)
+    this.on('pointerup', this[_pointerUp], this)
+    this.on('pointerdown', this[_pointerDown], this)
+    this.on('pointerout', this[_pointerOut], this)
+    this.#hoverFrame && this.on('pointerover', this[_pointerOver], this)
 
     _scene.add.existing(this)
-    _text && _scene.add.text(this.x + this.width / 2,
-        this.y + this.height / 2, _text, {...textStyle, ..._textStyle})
+    _text && new ButtonLabel(_scene, this.x, this.y, _text, {...textStyle, ..._textStyle})
   }
 
-  pointerUp(pointer) {
+  [_pointerUp](pointer) {
     this.#pressedFrame && this.setFrame(this.#upFrame)
     this.#btnCallback && this.#btnCallback.call(this.#myScope, 'up')
   }
 
-  pointerDown(pointer) {
+  [_pointerDown](pointer) {
     this.#pressedFrame && this.setFrame(this.#pressedFrame)
   }
 
-  pointerOver(pointer, x, y) {
+  [_pointerOver](pointer, x, y) {
     this.setFrame(this.#hoverFrame)
   }
 
-  pointerOut(pointer) {
+  [_pointerOut](pointer) {
     this.setFrame(this.#upFrame)
   }
 
+}
+
+class ButtonLabel extends Phaser.GameObjects.Text {
+  constructor(_scene, _x, _y, _text, _textStyle) {
+    super(_scene, _x, _y, _text, _textStyle)
+
+    this.x = this.x - this.displayWidth / 2
+    this.y = this.y - this.displayHeight / 2
+    _scene.add.existing(this)
+  }
 }
