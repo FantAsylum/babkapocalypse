@@ -18,7 +18,7 @@ export class MainMenu extends Scene {
       'button',
       'button_pressed',
       this.startGame,
-      10, 3)
+      4)
   }
 
   startGame() {
