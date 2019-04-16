@@ -12,6 +12,13 @@ export const mainMenu = {
   }
 }
 
+export const splashScreen = {
+  text: {
+    fontSize: 12,
+    fontFamily: 'Arial'
+  }
+}
+
 export const getFontStyle = ({fontSize: _fontSize, fontFamily: _fontFamily}) => {
   return `${_fontSize}px ${_fontFamily}`
 }

@@ -7,10 +7,6 @@ export class MainMenu extends Scene {
     super(config)
   }
 
-  preload() {
-    this.load.atlas('mainMenu', 'assets/mainMenu/spritesheet.png', 'assets/mainMenu/sprites.json');
-  }
-
   create() {
     new Button(this,
       this.sys.game.config['width'] / 2,
@@ -26,7 +22,7 @@ export class MainMenu extends Scene {
       }, 4)
   }
 
-  startGame() {
+  #startGame() {
     this.scene.start('Scene01')
   }
 
